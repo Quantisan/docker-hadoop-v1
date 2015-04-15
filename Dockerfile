@@ -13,6 +13,7 @@ RUN apt-get install -y curl tar sudo openssh-server rsync
 RUN addgroup hadoop
 RUN adduser --disabled-password --gecos "" -ingroup hadoop hduser
 RUN usermod -a -G sudo hduser
+RUN echo "hduser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Install Hadoop
 ENV HADOOP_INSTALL /usr/local/hadoop
@@ -34,7 +35,6 @@ RUN sed -i 's|^# export JAVA_HOME.*$|export JAVA_HOME=/usr/lib/jvm/java-7-openjd
 ADD bootstrap.sh /home/hduser/bootstrap.sh
 RUN chown hduser:hadoop /home/hduser/bootstrap.sh
 RUN chmod 700 /home/hduser/bootstrap.sh
-RUN mkdir /var/run/sshd
 
 # passwordless ssh
 USER hduser
@@ -49,5 +49,5 @@ ENV PATH $PATH:$HADOOP_INSTALL/bin
 WORKDIR /home/hduser
 RUN mkdir ~/.hadoop
 
-CMD ["/home/hduser/bootstrap.sh"]
+CMD ["/home/hduser/bootstrap.sh", "-d"]
 EXPOSE 50070 50030

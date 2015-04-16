@@ -50,4 +50,4 @@ WORKDIR /home/hduser
 RUN mkdir ~/.hadoop
 
 CMD ["/home/hduser/bootstrap.sh", "-d"]
-EXPOSE 50070 50030
+EXPOSE 50070 50075 50090 50105 50030 50060 8020 9001 50010 50020 50100
